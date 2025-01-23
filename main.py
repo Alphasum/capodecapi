@@ -95,3 +95,10 @@ async def websocket_endpoint(websocket: WebSocket):
         data = fetch_data()
         await websocket.send_json(data)
         await asyncio.sleep(3600)  # Refresh data every 1 hour
+        
+@app.get("/file")
+async def write_to_file():
+    data = fetch_data()
+    with open("data.txt", "w") as file:
+        file.write(str(data))
+    return {"message": "Data successfully written to file."}
