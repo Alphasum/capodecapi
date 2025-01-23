@@ -6,3 +6,4 @@ beautifulsoup4==4.12.2
 requests==2.31.0
 asyncio==3.4.3
 fastapi==0.115.7
+uvicorn==0.34.0
