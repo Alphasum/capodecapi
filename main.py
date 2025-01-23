@@ -23,6 +23,9 @@ tomorrow = today + timedelta(days=1)
 
 # Sources to scrape
 sources = [
+    'https://typersi.com/typer/60049/omwami1',
+    'https://typersi.com/typer/25381/pitwol',
+    'https://typersi.com/typer/26351/gasior',
     'https://typersi.com/typer/45156/Vilenma',
     'https://typersi.com/typer/26896/Wilenma',
     'https://typersi.com/typer/61475/NAIROBI',
@@ -32,37 +35,12 @@ sources = [
     'https://typersi.com/typer/54483/Cobra2407',
     'https://typersi.com/typer/61037/Dzaro',
     'https://typersi.com/typer/60183/michuulol',
-    'https://typersi.com/typer/39910/RiczardGir',
     'https://typersi.com/typer/24977/przemas04',
     'https://typersi.com/typer/31864/Kowalsky',
     'https://typersi.com/typer/60357/White100k',
-    'https://typersi.com/typer/52038/ramzes',
-    'https://typersi.com/typer/39877/Cactus',
-    'https://typersi.com/typer/26895/Kuckisan',
-    'https://typersi.com/typer/60913/Rem999',
-    'https://typersi.com/typer/37042/Lenkapas',
-    'https://typersi.com/typer/58740/Ciechan',
-    'https://typersi.com/typer/51290/Santi07',
-    'https://typersi.com/typer/44326/Lorinus',
-    'https://typersi.com/typer/32078/monkey19',
-    'https://typersi.com/typer/51543/rav303',
-    'https://typersi.com/typer/61472/NikhilSB',
-    'https://typersi.com/typer/51361/DODONI',
-    'https://typersi.com/typer/50239/Rekin1981',
-    'https://typersi.com/typer/25283/VersaceNo1',
-    'https://typersi.com/typer/59333/banguch',
-    'https://typersi.com/typer/58197/LUKI23',
-    'https://typersi.com/typer/52454/Kaka',
-    'https://typersi.com/typer/48312/RandyKings',
-    'https://typersi.com/typer/48000/BAYERN777',
-    'https://typersi.com/typer/58381/Lion77',
-    'https://typersi.com/typer/61621/Koiborirei',
-    'https://typersi.com/typer/24813/kapsel007',
-    'https://typersi.com/typer/61099/Kaczor',
-    'https://typersi.com/typer/61158/realproper',
-    'https://typersi.com/typer/59310/VitOld',
-    'https://typersi.com/typer/36030/BLX',
-    'https://typersi.com/typer/24695/Maczan88'
+    'https://typersi.com/typer/32078/monkey19', 
+    'https://typersi.com/typer/58381/Lion77', 
+    'https://typersi.com/typer/61621/Koiborirei'
 ]
 
 # Function to scrape data
