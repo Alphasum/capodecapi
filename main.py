@@ -47,38 +47,55 @@ sources = [
 def fetch_data():
     data = []
     for url in sources:
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Extract effectiveness
-        effectiveness_div = soup.find('div', class_='progressC')
-        effectiveness = effectiveness_div.find('span', class_='d-inline').text if effectiveness_div else '0'
+            # Extract effectiveness
+            effectiveness_div = soup.find('div', class_='progressC')
+            effectiveness = effectiveness_div.find('span', class_='d-inline').text.strip() if effectiveness_div else '0'
 
-        # Extract table rows
-        table = soup.find('table', class_='table bg-theme align-middle text-nowrap')
-        if table:
-            rows = table.find('tbody').find_all('tr')
-            for row in rows:
-                cols = row.find_all('td')
-                if cols:
-                    day = cols[1].text.strip()
-                    time = cols[2].text.strip()
-                    match_league = cols[3].text.strip()
-                    tip = cols[4].text.strip()
-                    odd = cols[6].text.strip()
-                    score = cols[8].text.strip()
+            # Extract table rows
+            table = soup.find('table', class_='table bg-theme align-middle text-nowrap')
+            if table:
+                rows = table.find('tbody').find_all('tr')
+                for row in rows:
+                    cols = row.find_all('td')
+                    if cols:
+                        day = cols[1].text.strip()
+                        time = cols[2].text.strip()
+                        bookmaker = cols[3].find('a')['href'] if cols[3].find('a') else "N/A"
+                        match_league = cols[4].text.strip()
+                        tip = cols[5].text.strip()
+                        stake = cols[6].text.strip()
+                        odd = cols[7].text.strip()
 
-                    # Check if day is today or tomorrow
-                    if day in [today.strftime('%d'), tomorrow.strftime('%d')]:
-                        data.append({
-                            'Day': day,
-                            'Time': time,
-                            'Match/League': match_league,
-                            'Tip': tip,
-                            'Odd': odd,
-                            'Score': score,
-                            'Effectiveness': effectiveness
-                        })
+                        # Extract score and outcome
+                        score_cell = cols[8]
+                        if score_cell.find('div'):
+                            score = score_cell.find('div').text.strip()
+                            outcome = 'Win' if '_twin' in score_cell['class'] else 'Loss'
+                        else:
+                            score = score_cell.text.strip()
+                            outcome = 'N/A'
+
+                        # Check if day is today or tomorrow
+                        if day in [today.strftime('%d'), tomorrow.strftime('%d')]:
+                            data.append({
+                                'Day': day,
+                                'Time': time,
+                                'Bookmaker': bookmaker,
+                                'Match/League': match_league,
+                                'Tip': tip,
+                                'Stake': stake,
+                                'Odds': odd,
+                                'Score': score,
+                                'Outcome': outcome,
+                                'Effectiveness': effectiveness
+                            })
+        except Exception as e:
+            print(f"Error fetching data from {url}: {e}")
     return sorted(data, key=lambda x: int(x['Effectiveness']), reverse=True)
 
 # HTTP route for fetching data
@@ -95,7 +112,7 @@ async def websocket_endpoint(websocket: WebSocket):
         data = fetch_data()
         await websocket.send_json(data)
         await asyncio.sleep(3600)  # Refresh data every 1 hour
-        
+
 @app.get("/file")
 async def write_to_file():
     data = fetch_data()
